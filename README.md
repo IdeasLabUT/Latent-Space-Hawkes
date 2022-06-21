@@ -1,7 +1,7 @@
 # Latent-Space-Hawkes
-Python implementation of the Latent Space Hawkes (LSH) model for continuous-time dynamic networks
+Python implementation of the Latent Space Hawkes (LSH) model for continuous-time dynamic networks.
 
-This repo contains the Python implementation and code to replicate experiments for LSH model in the paper [A Mutually Exciting Latent Space Hawkes Process Model for Continuous-time Networks](https://arxiv.org/abs/2205.09263), accpeted by UAI 2022.
+This repo contains the Python implementation and code to replicate experiments for LSH model in the paper: [A Mutually Exciting Latent Space Hawkes Process Model for Continuous-time Networks](https://arxiv.org/abs/2205.09263), accpeted by UAI 2022.
 
 ---
 
@@ -66,7 +66,7 @@ python LSH_model_sim.py
 #### General flags
 ```
 optional arguments:
---data   Dataset to use (eg. reality, Enron-Yang, MID, fb-forum)
--d --dim  Latent dimensions for LSH model
--c -- continent  Whether to plot 2D MID latent space with continent colored
+--data               Dataset to use (eg. reality, Enron-Yang, MID, fb-forum)
+-d --dim             Latent dimensions for LSH model
+-c -- continent      Whether to plot 2D MID latent space with continent colored
 ```
