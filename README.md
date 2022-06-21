@@ -53,7 +53,7 @@ python dynamic_link_pred.py --dataset 'reailty' --dim 2
 
 ```python
 # run the generative test on reality mining dataset with a 2 dimendion model
-python "LSH_generative.py" --dataset 'reailty' --dim 2
+python LSH_generative.py --dataset 'reailty' --dim 2
 ```
 
 #### Simulation tasks
