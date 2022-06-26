@@ -165,7 +165,7 @@ def LSHM_mle_am(t, count, endtime, dim, decays, verbose=False):
     
     return z_temp, theta_temp
 
-def LSHM_mle(t, count, endtime, dim, decays, verbose=False):
+def LSHM_mle(t, count, endtime, dim, decays, neg_slop = False, verbose=False):
     """
     MLE for LSH model
 
@@ -194,6 +194,8 @@ def LSHM_mle(t, count, endtime, dim, decays, verbose=False):
     # make it Symmetrical
     initdis = (initdis+initdis.T)/2.0  
     # fill all diagonal entries to 0
+    if neg_slop:
+        initdis = np.max(initdis)-initdis
     np.fill_diagonal(initdis, 0.0)
     
     # MDS initilization
@@ -220,14 +222,18 @@ def LSHM_mle(t, count, endtime, dim, decays, verbose=False):
         num_iter = int(n_nodes*(dim/2))
         for i in range(num_iter):
             bnds += ((None, None), (None, None))
-        bnds +=((0.001, None), (None, None), (0.001, None), (0.001, None))  
+        if neg_slop:
+            bnds +=((None, -0.001), (None, None), (0.001, None), (0.001, None))  
+        else: bnds +=((0.001, None), (None, None), (0.001, None), (0.001, None))  
     elif dim % 2 == 1:
         for i in range(n_nodes):
             bnds += ((None, None), (None, None), (None, None))
         num_iter = int(n_nodes*((dim-1)/2-1))
         for i in range(num_iter):
-            bnds += ((None, None), (None, None))    
-        bnds +=((0.001, None), (None, None), (0.001, None), (0.001, None))  
+            bnds += ((None, None), (None, None))  
+        if neg_slop:
+            bnds +=((None, -0.001), (None, None), (0.001, None), (0.001, None))  
+        else: bnds +=((0.001, None), (None, None), (0.001, None), (0.001, None))  
      
     for i in range(n_nodes-1):
         bnds += ((None, None), (None, None))
@@ -574,7 +580,7 @@ if __name__ == "__main__":
         start_fit_time = time.time()    
         z_est, theta_est = LSHM_mle(P_train, count_train, end_time_train, dim, decays, verbose=False)
         
-        filename = ('LSH_' + str(dim) + 'd_'+ dataset_name+ '2004'+ '_neg.pickle')
+        filename = ('LSH_' + str(dim) + 'd_'+ dataset_name+ '.pickle')
         
         with open(filename, 'wb') as handle:
             pickle.dump([z_est, theta_est], handle, protocol=pickle.HIGHEST_PROTOCOL)

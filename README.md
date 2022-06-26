@@ -39,21 +39,21 @@ enron-events.pckl: stores the Enron data provided in [Yang's github-repo](https:
 
 ```python
 # run the model on reality mining dataset with a 2 dimendion LSH model
-python LSH_model_fit.py --dataset 'reailty' --dim 2
+python LSH_model_fit.py --data 'reality' --dim 2
 ```
 
 #### Dynamic link prediction tasks:
 
 ```python
 # run dynamic link prediction on reality mining dataset with a 2 dimendion model
-python dynamic_link_pred.py --dataset 'reailty' --dim 2
+python dynamic_link_pred.py --data 'reality' --dim 2
 ```
 
 #### Genetative tasks (Posterior predictive check):
 
 ```python
 # run the generative test on reality mining dataset with a 2 dimendion model
-python "LSH_generative.py" --dataset 'reailty' --dim 2
+python "LSH_generative.py" --data 'reality' --dim 2
 ```
 
 #### Simulation tasks
