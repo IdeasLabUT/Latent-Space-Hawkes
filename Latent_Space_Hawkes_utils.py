@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 
 np.random.seed(2020)
     
-def plotlsp(z1, N, nodes, count_full, i, lsptitle='', dataset = '', top_ten = True):
+def plotlsp(z1, N, nodes, count_full, i, lsptitle='', dataset = '', top_ten = False):
     """    
     Parameters
     ----------
@@ -83,7 +83,7 @@ def plotlsp(z1, N, nodes, count_full, i, lsptitle='', dataset = '', top_ten = Tr
             dy= y_pos[rec_index][0]-y_pos[don_index][0]
             ax.arrow(x_pos[don_index][0], y_pos[don_index][0], dx, dy, head_width=0.08, head_length=0.08, fc='lightskyblue', ec='lightskyblue')
     plt.axis('equal')
-    plt.tight_layout(0.1)
+    #plt.tight_layout(0.1)
     #pl.legend(loc='upper right')
     plt.show()
 
