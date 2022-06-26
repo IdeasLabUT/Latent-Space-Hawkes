@@ -198,7 +198,7 @@ def LSHM_mle(t, count, endtime, dim, decays, neg_slop = False, verbose=False):
     # make it Symmetrical
     initdis = (initdis+initdis.T)/2.0  
     # fill all diagonal entries to 0
-    if not neg_slop:
+    if neg_slop:
         initdis = np.max(initdis)-initdis
     np.fill_diagonal(initdis, 0.0)
     
