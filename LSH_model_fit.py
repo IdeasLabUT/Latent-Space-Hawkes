@@ -71,7 +71,7 @@ def BivariateHawkes_LL(params_array, events_list, end_time, M=2):
             else: third += np.log(mu_array[m] + inter_sum)
     return (first+second+third)
 
-def LSHM_mle_am(t, count, endtime, dim, decays, verbose=False):
+def LSHM_mle_am(t, count, endtime, dim, decays, neg_slop = False, verbose=False):
     """
     MLE for LSH model
 
@@ -100,6 +100,8 @@ def LSHM_mle_am(t, count, endtime, dim, decays, verbose=False):
     # make it Symmetrical
     initdis = (initdis+initdis.T)/2.0  
     # fill all diagonal entries to 0
+    if neg_slop:
+        initdis = np.max(initdis)-initdis
     np.fill_diagonal(initdis, 0.0)
     
     # MDS initilization
@@ -124,10 +126,12 @@ def LSHM_mle_am(t, count, endtime, dim, decays, verbose=False):
     # set initial log-likelihood
     ll1 = 1000000
     # set tolerance error
-    TOL = 1e-5
+    TOL = 1e-6
     # contraint slope, and two jump size > 0
-    
-    bnds =((None, None), (None, None), (0, None), (0, None))
+
+    if neg_slop:
+        bnds =((None, -0.001), (None, None), (0.001, None), (0.001, None))  
+    else: bnds =((0.001, None), (None, None), (0.001, None), (0.001, None)) 
     for i in range(n_nodes-1):
         bnds += ((None, None), (None, None))
     
@@ -363,9 +367,6 @@ def LSHM_ll_fix_z(params, pos_temp, timestamp, n_nodes, end_time, dim, decays, v
     alpha_1 = theta[2]
     alpha_2 = theta[3]
     
-    
-    # There is still a tiny problem here, ll is not exactly symmetric, ll[u,v] may not equal to ll[v,u]
-    #print(alpha)
     sum_ll = 0
     
     for u in range(n_nodes):
@@ -424,8 +425,6 @@ def LSHM_ll_fix_theta(params, theta_temp, timestamp, n_nodes, end_time, dim, dec
     alpha_1 = theta[2]
     alpha_2 = theta[3]
     
-    # There is still a tiny problem here, ll is not exactly symmetric, ll[u,v] may not equal to ll[v,u]
-    #print(alpha)
     sum_ll = 0
     for u in range(n_nodes):
         for v in range(u):
@@ -490,8 +489,13 @@ if __name__ == "__main__":
                     default='MID')
     parser.add_argument('-d', '--dim', nargs='+', type=int, help='latent dimensions(can enter multiple values)',
                     default= [2])
-    parser.add_argument('-c', '--continent', nargs='+', type=bool, help='whether to plot 2D continent plot for MID',
+    parser.add_argument('-n', '--negative', type=bool, help='whether to use negative slope for latent space model',
                     default= False)
+    parser.add_argument('-a', '--alternating', type=bool, help='whether to use alternating minimization for latent space model',
+                    default= False)
+    parser.add_argument('-c', '--continent', type=bool, help='whether to plot 2D continent plot for MID',
+                    default= False)
+
     try:
       args = parser.parse_args()
     except:
@@ -503,6 +507,8 @@ if __name__ == "__main__":
     dataset_name = args.data
     dim_input = args.dim
     continent = args.continent
+    neg = args.negative
+    am = args.alternating
 
 
     if dataset_name == 'reality':
@@ -577,8 +583,11 @@ if __name__ == "__main__":
     for dim in dim_input:
         print("{} Dataset - Latent Space Hawkes Process: {}".format(dataset_name, dim))
         print("fitting seed is:", seed)     
-        start_fit_time = time.time()    
-        z_est, theta_est = LSHM_mle(P_train, count_train, end_time_train, dim, decays, verbose=False)
+        start_fit_time = time.time()  
+        if am:
+            z_est, theta_est = LSHM_mle_am(P_train, count_train, end_time_train, dim, decays, neg, verbose=False)
+        else: 
+            z_est, theta_est = LSHM_mle(P_train, count_train, end_time_train, dim, decays, neg, verbose=False)
         
         filename = ('LSH_' + str(dim) + 'd_'+ dataset_name+ '.pickle')
         
