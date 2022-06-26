@@ -44,7 +44,7 @@ python LSH_model_fit.py --data 'reality' --dim 2
 ```
 
 #### Dynamic link prediction tasks: 
-This task required running the **future events prediction tasks** (model estimation) first to load the estimated parameters from the pickle file. 
+This task requires running the **future events prediction tasks** (model estimation) first to load the estimated parameters from the pickle file. 
 
 ```python
 # run dynamic link prediction on reality mining dataset with a 2 dimendion model
@@ -52,7 +52,7 @@ python dynamic_link_pred.py --data 'reality' --dim 2
 ```
 
 #### Genetative tasks (Posterior predictive check):
-This task required running the **future events prediction tasks** (model estimation) first to load the estimated parameters from the pickle file. 
+This task requires running the **future events prediction tasks** (model estimation) first to load the estimated parameters from the pickle file. 
 
 ```python
 # run the generative test on reality mining dataset with a 2 dimendion model
