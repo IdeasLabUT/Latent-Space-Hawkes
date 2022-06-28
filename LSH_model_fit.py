@@ -198,8 +198,10 @@ def LSHM_mle(t, count, endtime, dim, decays, neg_slop = False, verbose=False):
     # make it Symmetrical
     initdis = (initdis+initdis.T)/2.0  
     # fill all diagonal entries to 0
+    from scipy.special import expit
     if neg_slop:
-        initdis = np.max(initdis)-initdis
+        #initdis = np.max(initdis)-initdis
+        initdis = 1-expit(initdis)
     np.fill_diagonal(initdis, 0.0)
     
     # MDS initilization
@@ -486,7 +488,7 @@ if __name__ == "__main__":
     ### Argument
     parser = argparse.ArgumentParser('Latent space Hawkes model training')
     parser.add_argument('--data', type=str, help='Dataset name (eg. reality, enron, MID, Enron-Yang or fb-forum)',
-                    default='MID')
+                    default='reality')
     parser.add_argument('-d', '--dim', nargs='+', type=int, help='latent dimensions(can enter multiple values)',
                     default= [2])
     parser.add_argument('-n', '--negative', type=bool, help='whether to use negative slope for latent space model',
@@ -584,6 +586,7 @@ if __name__ == "__main__":
         print("{} Dataset - Latent Space Hawkes Process: {}".format(dataset_name, dim))
         print("fitting seed is:", seed)     
         start_fit_time = time.time()  
+        
         if am:
             z_est, theta_est = LSHM_mle_am(P_train, count_train, end_time_train, dim, decays, neg, verbose=False)
         else: 
@@ -624,8 +627,8 @@ if __name__ == "__main__":
         else: nodes_label = id_node_map_all
         
         # plot 2D latent sapce 
-        if dim == 2:
-            lsh_utils.plotlsp(np.resize(z_est,(n_nodes_train,dim)), n_nodes_train, nodes_label, count_full ,1, "Estimate plot", dataset_name) 
+        if dim == 2 and dataset_name == 'MID':
+            lsh_utils.plotlsp(np.resize(z_est,(n_nodes_train,dim)), n_nodes_train, nodes_label, count_full ,1, "Estimate plot", dataset_name, True) 
             plt.savefig('./storage/results/' + dataset_name +'/LSP_'+ dataset_name +'.pdf') 
 
         # plot MID with continent colored plot

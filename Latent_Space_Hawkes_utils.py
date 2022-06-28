@@ -81,8 +81,9 @@ def plotlsp(z1, N, nodes, count_full, i, lsptitle='', dataset = '', top_ten = Fa
             ax = plt.axes()
             dx = x_pos[rec_index][0]-x_pos[don_index][0]
             dy= y_pos[rec_index][0]-y_pos[don_index][0]
+            #print(x_pos[don_index][0], y_pos[don_index][0])
             ax.arrow(x_pos[don_index][0], y_pos[don_index][0], dx, dy, head_width=0.08, head_length=0.08, fc='lightskyblue', ec='lightskyblue')
-    plt.axis('equal')
+    #plt.axis('equal')
     #plt.tight_layout(0.1)
     #pl.legend(loc='upper right')
     plt.show()

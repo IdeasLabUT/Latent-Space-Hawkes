@@ -56,7 +56,7 @@ This task requires running the **future events prediction tasks** (model estimat
 
 ```python
 # run the generative test on reality mining dataset with a 2 dimendion model
-python "LSH_generative.py" --data 'reality' --dim 2
+python LSH_generative.py --data 'reality' --dim 2
 ```
 
 #### Simulation tasks
@@ -69,7 +69,9 @@ python LSH_model_sim.py
 #### General flags
 ```
 optional arguments:
---data   Dataset to use (eg. reality, Enron-Yang, MID, fb-forum)
--d --dim  Latent dimensions for LSH model
--c -- continent  Whether to plot 2D MID latent space with continent colored
+--data   			Dataset to use (eg. reality, Enron-Yang, MID, fb-forum)
+-d --dim  			Latent dimensions for LSH model
+-c --continent  	Whether to plot 2D MID latent space with continent colored
+-a --alternating 	Whether to use alternating minimization for latent space model estimation
+-n --negative    	Whether to use negative slope for latent space model
 ```
