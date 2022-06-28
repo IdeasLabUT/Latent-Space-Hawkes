@@ -69,8 +69,8 @@ python LSH_model_sim.py
 #### General flags
 ```
 optional arguments:
---data   			Dataset to use (eg. reality, Enron-Yang, MID, fb-forum)
--d --dim  			Latent dimensions for LSH model
+--data   		Dataset to use (eg. reality, Enron-Yang, MID, fb-forum)
+-d --dim  		Latent dimensions for LSH model
 -c --continent  	Whether to plot 2D MID latent space with continent colored
 -a --alternating 	Whether to use alternating minimization for latent space model estimation
 -n --negative    	Whether to use negative slope for latent space model
